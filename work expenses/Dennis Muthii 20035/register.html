@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+        login page
+        </title>
+        <link rel="stylesheet" href="style.css">
+        <script src="dennis.min.js"></script>
+
+    </head>
+    <body>
+      
+         <nav class="navbar">
+            <ul style="align-items: center;">
+                <li><a href="index.html"> <--Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+
+<div class="container">
+
+<h2> Registration</h2>
+
+<form id="regForm">
+
+<label>Student Admission Number</label>
+<input type="text" id="admission" placeholder="Enter admission number">
+<div class="error" id="admissionError"></div>
+
+<label>Full Name</label>
+<input type="text" id="name" placeholder="Enter full name">
+<div class="error" id="nameError"></div>
+
+<label>Select Event</label>
+<select id="event">
+<option value="">--Choose an Event--</option>
+<option>Cultural week</option>
+<option>Sports tournament</option>
+<option> MiNaP Clubs</option>
+<option>Media activities</option>
+</select>
+<div class="error" id="eventError"></div>
+
+<label>Email Address</label>
+<input type="text" id="email" placeholder="example@email.com">
+<div class="error" id="emailError"></div>
+
+<button type="submit">Register</button>
+
+</form>
+
+<p class="success" id="successMsg"></p>
+
+</div>
+
+<script>
+
+$(document).ready(function(){
+
+$("#regForm").submit(function(e){
+
+e.preventDefault()
+
+$(".error").text("")
+$("#successMsg").text("")
+
+let admission = $("#admission").val()
+let name = $("#name").val()
+let event = $("#event").val()
+let email = $("#email").val()
+
+let valid = true
+
+if(admission == ""){
+$("#admissionError").text("Admission number required")
+valid = false
+}
+
+if(name == ""){
+$("#nameError").text("Please enter your name")
+valid = false
+}
+
+if(event == ""){
+$("#eventError").text("Please select an event")
+valid = false
+}
+
+let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/
+
+if(email == ""){
+$("#emailError").text("Email is required")
+valid = false
+}
+else if(!emailPattern.test(email)){
+$("#emailError").text("Invalid email format😏")
+valid = false
+}
+
+if(valid){
+$("#successMsg").text("Registration Successful!😊")
+$("#regForm")[0].reset()
+}
+
+})
+
+})
+
+</script>
+</html>
+    </body>
+</html>

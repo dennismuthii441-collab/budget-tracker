@@ -1,0 +1,24 @@
+{
+  "expo": {
+    "name": "Community",
+    "slug": "community",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0F172A"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#0F172A"
+      },
+      "package": "com.mg_goat.community"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "92395409-5c08-444c-acea-0bc0b386c457"
+      }
+    }
+  }
+}

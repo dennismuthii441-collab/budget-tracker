@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>campus connect</title>
+         <link rel="stylesheet" href="style.css">
+         <script src="dennis.min.js"></script>
+    </head>
+    <body>
+    <header>
+        <br>
+        <div class="logo-container">
+            <img src="images/move jupiter.png" alt=""> 
+            <h1>Michuki National Polytechnic</h1>
+            </div>
+            <br>
+            <nav class="navbar">
+            <ul>
+                <li><a href="main.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="register.html">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+     <main class="main-content">
+        <section class="hero-banner">
+            <h2>Welcome to campus connect</h2>
+            <p> We are here to grow your campus expirience with in style.</p>
+        </section>
+          <div class="slide-show-container">
+            <img src="indeximages/pic 1.png" alt=" Image 1" style="left: 0%;">
+            <img src="indeximages/pic 2.png" alt=" Image 2">
+            <img src="indeximages/pic 3.png" alt=" Image 3">
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="social-links">
+            <a href="#"><img src="ICONS/social.png" alt="Facebook" class="social-icon"></a>
+            <a href="#"><img src="ICONS/twitter.png" alt="Twitter" class="social-icon"></a>
+            <a href="#"><img src="ICONS/instagram.png" alt="Instagram" class="social-icon"></a>
+            <a href="#"><img src="ICONS/whatsapp.png" alt="whatsapp" class="social-icon"></a>
+        </div>
+        <p>&copy; made by dennis All Rights Reserved. <br>
+            cont 0111854898  - info:dennismuthiii441@gmail.com
+        </p>
+        
+    </footer>
+
+       <script>
+
+    $(document).ready(function(){
+        let slides = $(".slide-show-container img");
+        let currentIndex = 0;
+
+        function slideImages() {
+            let currentSlide = slides.eq(currentIndex);
+            currentIndex = (currentIndex + 1) % slides.length;
+            let nextSlide = slides.eq(currentIndex);
+
+            // slide animation
+            currentSlide.animate({left: '100%'}, 1000, function() {
+                $(this).css('left', '-100%'); 
+            });
+            nextSlide.animate({left: '0%'}, 1000);
+        }
+
+        setInterval(slideImages, 4000); 
+    });
+    </script>
+ </body>
+</html>

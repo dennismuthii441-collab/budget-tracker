@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>events</title>
+         <link rel="stylesheet" href="style.css">
+         <script src="dennis.min.js"></script>
+    </head>
+    <body>
+        <header> <h2 style="text-align: center; margin-bottom: 20px;"> Check out our Events here 👇👇</header>
+            <nav class="navbar">
+            <ul style="align-items: center;">
+                <li><a href="index.html"> <--Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="register.html">Register--> </a></li>
+            </ul>
+        </nav>   
+<body>
+
+<section class="events-container">
+    <h2>Upcoming Events</h2>
+    <div class="grid">
+        <div class="card">
+            <img src="images/culture week.png" alt="Cultural Week">
+            <div class="card-content">
+                <h3>Cultural Week</h3>
+                <p class="date">March 15 - 20, 2026</p>
+                <p class="short-desc">Celebrate diversity through music, dance and food.</p>
+                
+                <div class="extra-details">
+                    <p>Location: Main Campus Square. Join us for the grand finale concert on Friday!</p>
+                </div>
+                <button class="show-more">Show More👇</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="images/sports.png" alt="Sports Day">
+            <div class="card-content">
+                <h3>Sports Day</h3>
+                <p class="date">April 05, 2026</p>
+                <p class="short-desc">Compete in track, field, and indoor games.</p>
+                
+                <div class="extra-details">
+                    <p>Registration for the marathon closes next week. Medals for all winners!</p>
+                </div>
+                <button class="show-more">Show More👇</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="images/Screenshot 2026-03-11 111107.png" alt="Election">
+            <div class="card-content">
+                <h3>Students' Election</h3>
+                <p class="date">May 12, 2026</p>
+                <p class="short-desc">Cast your vote for the next student leadership team.</p>
+                
+                <div class="extra-details">
+                    <p>Voting booths open from 8:00 AM to 5:00 PM at the Student Union building.</p>
+                </div>
+                <button class="show-more">Show More👇</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="images/Screenshot 2026-03-11 110656.png" alt="Tree Planting">
+            <div class="card-content">
+                <h3>Tree Planting Day</h3>
+                <p class="date">June 05, 2026</p>
+                <p class="short-desc">Help us make our campus greener and sustainable.</p>
+                
+                <div class="extra-details">
+                    <p>Equipment and saplings provided. Meet at the South Gate at 9:00 AM.</p>
+                </div>
+                <button class="show-more">Show More👇</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function(){
+        $(".show-more").click(function(){
+            $(this).prev(".extra-details").slideToggle();
+            $(this).text($(this).text() == "Show More" ? "Show Less" : "Show More");
+        });
+    });
+</script>
+</body>
+</html>
+    </body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connect Share - Zoom Style</title>
+  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+  <style>
+    :root {
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --accent: #06b6d4;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      width: 100%;
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-text {
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .logo-text span { color: var(--primary); }
+
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 20px;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 24px;
+    }
+
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Zoom Style Video Grid */
+    .video-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      background: #0f172a;
+      border-radius: 16px;
+      padding: 12px;
+      min-height: 350px;
+    }
+
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 160px;
+      background: #1e293b;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .participant-label {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+    }
+
+    /* Meeting Control Bar */
+    .controls-bar {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      background: #f1f5f9;
+      padding: 10px;
+      border-radius: 12px;
+      align-items: center;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px;
+      outline: none;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* File Section */
+    .drop-zone {
+      border: 2px dashed var(--border-color);
+      border-radius: 16px;
+      padding: 30px 20px;
+      text-align: center;
+      background: #fafafa;
+      cursor: pointer;
+      margin-bottom: 16px;
+    }
+
+    .download-btn {
+      display: none;
+      text-align: center;
+      background: var(--success);
+      color: white;
+      text-decoration: none;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <div class="logo-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+        </svg>
+      </div>
+      <div class="logo-text">Connect<span>Share</span></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Zoom-Style Meeting Room -->
+    <div class="card">
+      <h3 style="margin-bottom: 12px;">Zoom Meeting Room</h3>
+      
+      <div class="video-grid" id="video-grid">
+        <div class="video-container">
+          <video id="local-video" autoplay muted playsinline></video>
+          <div class="participant-label">You</div>
+        </div>
+      </div>
+
+      <div class="controls-bar">
+        <div style="font-size: 12px; color: var(--text-muted);">
+          Meeting ID: <strong id="my-code" style="color: var(--primary);">...</strong>
+        </div>
+        <input type="text" id="peer-code-input" placeholder="Enter ID to invite/join">
+        <button class="btn-primary" onclick="addParticipant()">Add Person</button>
+      </div>
+    </div>
+
+    <!-- P2P File Transfer -->
+    <div class="card">
+      <h3 style="margin-bottom: 12px;">P2P File Transfer</h3>
+      <div class="drop-zone" onclick="document.getElementById('file-input').click()">
+        <div>Browse Local Storage</div>
+        <div style="font-size: 12px; color: var(--text-muted);">Select file to stream directly</div>
+        <div id="file-name-display" style="font-size: 13px; color: var(--primary); margin-top: 8px;"></div>
+      </div>
+
+      <input type="file" id="file-input" style="display: none;" onchange="handleFileSelect()">
+      <button class="btn-primary" style="width: 100%;" onclick="sendP2PFile()">Stream File</button>
+
+      <a id="download-link" class="download-btn">Download Received File</a>
+    </div>
+  </main>
+
+  <script>
+    const peer = new Peer();
+    let localStream = null;
+    let dataConnections = [];
+
+    // Get WebCam Feed
+    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+      .then((stream) => {
+        localStream = stream;
+        document.getElementById('local-video').srcObject = stream;
+      })
+      .catch((err) => console.error("Camera access error:", err));
+
+    peer.on('open', (id) => {
+      document.getElementById('my-code').innerText = id;
+    });
+
+    // Handle Incoming Call
+    peer.on('call', (call) => {
+      call.answer(localStream);
+      call.on('stream', (remoteStream) => {
+        appendVideoFeed(remoteStream, call.peer);
+      });
+    });
+
+    // Handle Incoming File Connection
+    peer.on('connection', (conn) => {
+      dataConnections.push(conn);
+      bindDataEvents(conn);
+    });
+
+    function addParticipant() {
+      const destId = document.getElementById('peer-code-input').value.trim();
+      if (!destId) return alert("Enter a Meeting ID!");
+
+      // Start Call
+      const call = peer.call(destId, localStream);
+      call.on('stream', (remoteStream) => {
+        appendVideoFeed(remoteStream, destId);
+      });
+
+      // Connect Data Stream
+      const conn = peer.connect(destId);
+      dataConnections.push(conn);
+      bindDataEvents(conn);
+    }
+
+    function appendVideoFeed(stream, peerId) {
+      if (document.getElementById(`video-${peerId}`)) return;
+
+      const grid = document.getElementById('video-grid');
+      const container = document.createElement('div');
+      container.className = 'video-container';
+      container.id = `video-${peerId}`;
+
+      const video = document.createElement('video');
+      video.srcObject = stream;
+      video.autoplay = true;
+      video.playsInline = true;
+
+      const label = document.createElement('div');
+      label.className = 'participant-label';
+      label.innerText = `User (${peerId.substring(0, 4)})`;
+
+      container.appendChild(video);
+      container.appendChild(label);
+      grid.appendChild(container);
+    }
+
+    function bindDataEvents(conn) {
+      conn.on('data', (data) => {
+        const blob = new Blob([data.file], { type: data.type });
+        const url = URL.createObjectURL(blob);
+        const link = document.getElementById('download-link');
+        link.href = url;
+        link.download = data.name;
+        link.style.display = 'block';
+        link.innerText = `Download ${data.name}`;
+      });
+    }
+
+    function handleFileSelect() {
+      const input = document.getElementById('file-input');
+      if (input.files.length > 0) {
+        document.getElementById('file-name-display').innerText = input.files[0].name;
+      }
+    }
+
+    function sendP2PFile() {
+      const fileInput = document.getElementById('file-input');
+      const file = fileInput.files[0];
+      if (!file || dataConnections.length === 0) return alert("Select a file and join a room first!");
+
+      dataConnections.forEach((conn) => {
+        conn.send({
+          file: file,
+          name: file.name,
+          type: file.type
+        });
+      });
+      alert("File sent to all room participants!");
+    }
+  </script>
+</body>
+</html>
